@@ -1,0 +1,81 @@
+import Course from "../modules/courseModel.js";
+import { GoogleGenAI } from "@google/genai";
+import dotenv, { config } from "dotenv";
+
+dotenv.config()
+
+
+
+
+export const searchWithAi = async (req, res) => {
+    try {
+        const {input} = req.body;
+        if(!input){
+            return res.status(400).json({message:"Search query is required"})
+        }
+
+        const ai = new GoogleGenAI({
+            apiKey: process.env.GEMINI_API_KEY
+        });
+
+        const prompt = `You are an intelligent assistant for an LMS platform. A user will type any query about what they want to learn. Your task is to understand the intent and return on **most relevant keyword** from the following list of course categories and levels: 
+        
+        -App Development
+        -AI/ML
+        -AI Tools
+        -Web Development
+        -Data Science
+        -Data Analytics
+        -Ethical Hacking
+        -UI UX Designing
+        -Others
+        -Beginner
+        -Intermediate
+        -Advanced
+
+        only reply with one single keyword from the list above that best matches the query. Do not explain anything. No extra text.
+
+        Query: ${input}
+        `
+
+    const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: prompt,
+  });
+
+  const keyword = response.text
+    const courses = await Course.find({
+            isPublished: true,
+            $or:[
+                {title: {$regex: keyword , $options : 'i'}},
+                {subTitle: {$regex: keyword , $options : 'i'}},
+                {description: {$regex: keyword , $options : 'i'}},
+                {category: {$regex: keyword , $options : 'i'}},
+                {level: {$regex: keyword , $options : 'i'}},
+            ]
+        })
+
+        
+
+        if (courses.length > 0) {
+            return res.status(200).json(courses)
+        }
+        else{
+            const courses = await Course.find({
+            isPublished: true,
+            $or:[
+                {title: {$regex: keyword , $options : 'i'}},
+                {subTitle: {$regex: keyword , $options : 'i'}},
+                {description: {$regex: keyword , $options : 'i'}},
+                {category: {$regex: keyword , $options : 'i'}},
+                {level: {$regex: keyword , $options : 'i'}},
+            ]
+        })
+        return res.status(200).json(courses)
+        }
+
+       
+    } catch (error) {
+        return res.status(500).json({message: "Internal server error"})
+    }
+}
