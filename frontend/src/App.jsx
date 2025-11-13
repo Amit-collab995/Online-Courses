@@ -25,7 +25,7 @@ import MyEnrolledCourses from "./pages/MyEnrolledCourses";
 import getAllReviews from "./customHooks/getAllReviews";
 import SearchWithAi from "./pages/SearchWithAi";
 
-export const serverUrl = "https://virtualcourses-ou5b.onrender.com";
+export const serverUrl = "https://virtualcourses-12.onrender.com";
 
 const App = () => {
   getCurrentUser();
