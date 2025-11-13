@@ -20,9 +20,7 @@ app.use(express.json())
 app.use(cookieParser())
 // CORS: allow localhost and deployed domains. Use a whitelist and echo allowed origins.
 const allowedOrigins = [
-    process.env.CLIENT_URL || "http://localhost:5173",
-    "https://virtualcourses-ou5b.onrender.com",
-    "https://virtualcourses-1-1n37.onrender.com",
+    process.env.CLIENT_URL || "https://virtualcourses-13.onrender.com",
 ]
 
 app.use(cors({
