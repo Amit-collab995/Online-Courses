@@ -7,7 +7,6 @@ import { setReviewData } from '../redux/reviewSlice'
 const getAllReviews = () => {
    const dispatch = useDispatch()
 
-
      useEffect(() => {
         const allReviews = async () => {
             try {
@@ -19,7 +18,7 @@ const getAllReviews = () => {
             }
         }
         allReviews()
-     }, [])
+     }, [dispatch])
 }
 
 export default getAllReviews

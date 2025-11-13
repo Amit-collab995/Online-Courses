@@ -7,7 +7,7 @@ import { setCourseData } from '../redux/courseSlice';
 
 const getPublishedCourse = () => {
     const dispatch = useDispatch();
- useEffect(()=>{
+    useEffect(()=>{
     const getCourseData = async()=>{
         try {
             const result = await axios.get(serverUrl + "/api/course/getpublished", {withCredentials:true})

@@ -7,7 +7,6 @@ import { setCreatorCourseData } from '../redux/courseSlice'
 const getCreatorCourse = () => {
     const dispatch = useDispatch()
     const{userData} = useSelector(state=>state.user)
-  return (
     useEffect(()=>{
     const creatorCourses = async() => {
         try {
@@ -23,7 +22,6 @@ const getCreatorCourse = () => {
     }
     creatorCourses()
     },[userData])
-  )
 }
 
 export default getCreatorCourse
