@@ -55,7 +55,7 @@ const Nav = () => {
               className="w-[40px] h-[40px] rounded-full text-white bg-black flex items-center justify-center text-[20px] font-semibold cursor-pointer border-2 border-white "
               onClick={() => setShow((prev) => !prev)}
             >
-              {userData?.name.slice(0, 1).toUpperCase()}
+              {userData?.name?.slice(0, 1)?.toUpperCase() || "U"}
             </div>
           )}
 
@@ -113,7 +113,7 @@ const Nav = () => {
 
           {userData?.photoUrl ? <img src={userData.photoUrl} className="w-[64px] h-[64px]  rounded-full text-white bg-black flex items-center justify-center text-[20px] font-semibold cursor-pointer border-2 border-green-400 " /> : (
             <div className="w-[50px] h-[50px] rounded-full text-white border-2 border-white bg-black flex items-center justify-center text-[20px] font-semibold cursor-pointer ">
-              {userData?.name.slice(0, 1).toUpperCase()}
+              {userData?.name?.slice(0, 1)?.toUpperCase() || "U"}
             </div>
           )}
 

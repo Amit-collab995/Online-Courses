@@ -18,31 +18,16 @@ const port = process.env.PORT ;
 const app = express();
 app.use(express.json())
 app.use(cookieParser())
-// CORS: allow localhost and deployed domains. Use a whitelist and echo allowed origins.
-const allowedOrigins = [
-    process.env.CLIENT_URL || "https://virtualcourses-13.onrender.com",
-]
-
 app.use(cors({
-    origin: function(origin, callback){
-        // Allow requests with no origin (e.g., mobile apps, curl, server-to-server)
-        if (!origin) return callback(null, true)
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            return callback(null, true)
-        } else {
-            return callback(new Error('CORS policy: This origin is not allowed.'))
-        }
-    },
-    credentials: true,
+    origin: "http://localhost:5173",
+    credentials: true
 }))
 
-// Set Cross-Origin-Opener-Policy and Cross-Origin-Embedder-Policy to avoid COOP/COEP warnings
+// Allow popups for Firebase authentication
 app.use((req, res, next) => {
-    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
-    res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none')
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
     next()
 })
-
 
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)

@@ -25,13 +25,12 @@ import MyEnrolledCourses from "./pages/MyEnrolledCourses";
 import getAllReviews from "./customHooks/getAllReviews";
 import SearchWithAi from "./pages/SearchWithAi";
 
-export const serverUrl = "https://virtualcourses-12.onrender.com";
+export const serverUrl = "http://localhost:8000";
 
 const App = () => {
   getCurrentUser();
   getCreatorCourse()
   getPublishedCourse()
-  ScroolToTop()
   getAllReviews()
   const { userData } = useSelector((state) => state.user);
   

@@ -30,8 +30,8 @@ export const signUp = async (req, res) => {
     let token = await genToken(user._id);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -64,8 +64,8 @@ export const logIn = async (req, res) => {
     let token = await genToken(user._id);
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -169,26 +169,28 @@ export const resetPassword = async (req,res) => {
 export const googleAuth = async (req,res) => {
   try {
     const {name, email, role} = req.body
-    const user = await User.findOne({email})
+    let userRole = role && ["student", "educator"].includes(role) ? role : "student";
+    let user = await User.findOne({email})
 
     if(!user){
       user = await User.create({
         name,
         email,
-        role,
+        role: userRole,
       })
 
     }
     let token = await genToken(user._id)
     res.cookie("token", token, {
       httpOnly: true,
-      secure:true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000
     })
     return res.status(200).json(user)
     
   } catch (error) {
-    return res.status(500).json({message: `GoogleAuth error ${error}`})
+    console.error("GoogleAuth error:", error)
+    return res.status(500).json({message: `GoogleAuth error ${error.message}`})
   }
 }
