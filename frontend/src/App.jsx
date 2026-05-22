@@ -25,7 +25,7 @@ import MyEnrolledCourses from "./pages/MyEnrolledCourses";
 import getAllReviews from "./customHooks/getAllReviews";
 import SearchWithAi from "./pages/SearchWithAi";
 
-export const serverUrl = "http://localhost:8000";
+export const serverUrl = "https://online-courses-1.onrender.com";
 
 const App = () => {
   getCurrentUser();
